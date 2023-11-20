@@ -1,0 +1,855 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+html {
+  scroll-behavior: smooth; /*การเลื่อนของหน้าเว็บโดยทำให้การเลื่อนมีการแสดงผลอย่างราบลื่น*/
+}
+
+::-webkit-scrollbar { /*ความกว้างของ scrollbar เมื่อเราใช้ Chrome*/
+  width: 9px;
+}
+
+::-webkit-scrollbar-track {/*กำหนดสี scrollbar (แถบด้านขวาเลื่อนขึ้นลงด้านข้าง) */
+  background: #f1f1f1;
+}
+
+.loader_bg {            /*สร้างพื้นหลัง*/
+  position: fixed;      /*ตำแหน่งคงที่บนหน้าเว็บ แม้จะมีการเลื่อนหน้าเว็บขึ้นหรือลง*/
+  z-index: 9999999;     /* เหมือนจะเอาออกได้*/
+  background: #fff;
+  width: 100%;
+  height: 100%;
+}
+
+.loader {         /*ถูกใช้กำหนดสไตล์สำหรับองค์ประกอบที่มีคลาส "loader"*/
+  height: 100%;
+  width: 100%;
+  position: absolute; /*ตำแหน่งคงที่บนหน้าเว็บ*/
+  left: 0;            /* ตำแหน่งซ้ายสุดขององค์ประกอบในพื้นที่ของหน้าเว็บ.*/
+  top: 0;             /*ตำแหน่งด้านบนสุดขององค์ประกอบในพื้นที่ของหน้าเว็บ.*/
+  display: flex;      /*จัดการจัดตำแหน่งข้อความหรือส่วนอื่น ๆ ในองค์ประกอบนี้*/
+  justify-content: center;  /* จัดตำแหน่งข้อความหรือส่วนอื่น ๆ ในแนวนอน */
+  align-items: center;      /* จัดตำแหน่งข้อความหรือส่วนอื่น ๆ ในแนวตั้ง */
+}
+
+.loader img {     /*กฎ CSS ที่ถูกใช้กำหนดสไตล์สำหรับภาพภายในองค์ประกอบที่มีคลาส "loader"*/
+  width: 280px; /*กำหนดความกว้างของภาพให้มีขนาด 280 พิกเซล*/
+}
+
+::-webkit-scrollbar-thumb {   /*ตกแต่งตัวเลื่อนแถบแนวตั้ง (scrollbar) ของเบราวเซอร์ Google Chrome*/
+  border-radius: 12px;        /*ขอบมน*/
+  background: linear-gradient(135deg, #005B41, #232D3F, rgb(11, 242, 7));    /*ตัวเลขหลัง rgb คือ ค่าความเข้มของสี*/
+}
+
+::-webkit-scrollbar-thumb:hover { /*ทำให้ตัวเลื่อน (scrollbar) เปลี่ยนสีพอเอาเม้าส์ไปโดน */
+  background: linear-gradient(135deg, #776B5D, #B3A492, #EBE3D5);      /*ค่า deg คือ มุมการเปลี่ยนแปลงเริ่มต้นจากมุม 135 องศา*/
+}
+
+/*  Simillar  */
+section {             /*กำหนดสไตล์สำหรับองค์ประกอบ <section> ทุกองค์ประกอบในหน้าเว็บ*/
+  padding: 100px 0;    /*กำหนดระยะห่างระห่างsection แต่ละอัน เช่น กรอบskill กับ research*/
+}                   
+
+.max-width {
+  max-width: 1300px;  /*ควบคุมความกว้างขององค์ประกอบเพื่อไม่ให้มีขนาดใหญ่เกินไปในหน้าเว็บ*/
+  padding: 0 80px;    /*บนและล่างเป็น 0 พิกเซล และในแนวซ้ายและขวาเป็น 80 พิกเซล ช่วยให้มีช่องว่างด้านซ้ายและขวาของ .max-width ในการจัดวางองค์ประกอบในแนวนอน*/
+  margin: auto;
+}
+
+.about,       
+.education,
+.skills,
+.research,
+.contact,
+footer {
+  font-family: "Poppins", sans-serif;
+}
+
+.about .about-content,
+.education .edu-content,
+.skills .skills-content,
+.contact .contact-content {
+  display: flex;              /*จัดวางองค์ประกอบในแนวนอนและแนวตั้งได้อย่างยืดหยุ่น*/
+  flex-wrap: wrap;            /*กำหนดองค์ประกอบด้านใน โดยเมื่อเกินขนาดหน้าจอมากเกินไป องค์ประกอบจะลดขนาดลงหรือข้ามไปทางบรรทัดถัดไป */
+  align-items: center;        /*กำหนดให้องค์ประกอบด้านในจัดตำแหน่งในแนวตั้งภายในคอนเทนเนอร์ของมัน*/
+  justify-content: space-between; /*ทำให้องค์ประกอบมีระยะห่างคงที่ระหว่างพวกมัน*/
+}
+
+section .title {          /*ตรงคำว่า About me (หัวข้อขของทุกอัน)*/
+  position: relative;
+  text-align: center;   /*อยู่ตรงกลาง*/
+  font-size: 40px;
+  font-weight: 500;     /*ความหนาตัวอักษร*/
+  margin-bottom: 60px;  /*ทำให้มีช่องว่างด้านล่างของ element นั้นเพิ่มขึ้น*/
+  padding-bottom: 20px; /*ระยะห่างตรงAbout me กับ CV*/
+  font-family: "Ubuntu", sans-serif;
+}
+
+section .title::after {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  font-size: 20px;
+  color: #1e3551;   /*สีตรง cv หัวข้อย่อยจาก title*/
+  padding: 0 5px;     /*แนวซ้ายและขวาเป็น 5 พิกเซล*/
+  transform: translateX(-50%);    /*ทำให้ pseudo-element นี้อยู่ตรงกลางของ "title"*/
+}
+
+
+/*  Navbar  */
+.navbar {
+  position: fixed;  /*กำหนดให้แถบ Navbar มีตำแหน่งคงที่และไม่เคลื่อนไหวเมื่อเลื่อนหน้าจอ*/
+  width: 100%;      /*Navbar มีความกว้างเท่ากับ 100% ของหน้าจอ*/
+  z-index: 999;     /*ให้ Navbar อยู่ด้านหน้าขององค์ประกอบอื่นๆ ในหน้าเว็บ*/
+  padding: 30px 0;  /*กำหนดระยะขอบภายใน Navbar ด้านบนและด้านล่างเท่ากับ 30px ซ้ายขวา=0*/
+  font-family: "Ubuntu", sans-serif;
+  transition: all 0.3s ease;  /*ความหน่วงเวลาเลื่อนขึ้น-ลง แถบจะจางหรือชัดขึ้นายใน 0.3 วินาที*/
+}
+
+.navbar.sticky {      /* sticky ทำให้ Navbar ติดตามด้านบนของหน้าจอเมื่อผู้ใช้เลื่อนหน้าจอลงมา*/
+  padding: 15px 0;    /* ระยะขอบ (padding) ด้านบนและด้านล่างของ Navbar ถูกเพิ่มไป 15px */
+  background: #4F6F52;  /*เมื่อเลื่อนจอลงมาแถบจะเป็นสน้ำเงิน*/
+  z-index: 999;
+}
+
+.navbar .max-width {
+  display: flex;        /*จัดวางและจัดการตำแหน่งขององค์ประกอบ*/
+  align-items: center;  /* ตัวอักษรในแถบ narvar อยู่ตรงกลางตรง ex. home*/
+  justify-content: space-between; /*ให้ตัวอักษรหรืออปก.ในแถบ navbarกระจายตัวเท่าๆกัน*/
+}
+
+.navbar .logo a {     /*ลักษณะของลิงค์ที่อยู่ภายในองค์ประกอบ*/
+  color: #fff;      /*สีของข้อความในลิงค์*/
+  font-size: 35px;    /*ขนาดของตัวอักษรในลิงค์*/
+  font-weight: 600;   /*ความหนาของตัวอักษรในลิงค์*/
+}
+
+/*  Nav Logo Span Linear-Gradient  */     
+.navbar .logo a span {        /* prae  jinjutha ที่มีการเรียกใช้ spanใน class logo*/
+  background: linear-gradient(135deg, #FAEDCD, #FEFAE0, #B0D9B1);  /*สีเรียงตามมุม 135 องศา โดยไล่ตาามสี*/
+  -webkit-background-clip: text;    /*คำสั่งที่กำหนดว่าจะถูกใช้เฉพาะในข้อความภายใน span*/
+  -webkit-text-fill-color: transparent; /*ทำให้สีของตัวอักษรภายใน span เป็นโปร่งใส*/
+  transition: all 0.3s ease;
+}
+
+.navbar .menu li {      /*เลือกลักษณะของรายการ (li) ที่ต้องอยู่ภายในองค์ประกอบที่มีคลาส .menu */
+  list-style: none;     /*ลบสัญลักษณ์รายการ (bullets)หรือตัว • นี้*/
+  display: inline-block;  /*ทำให้รายการนั้นๆ อยู่ในบรรทัดเดียวกัน และยังสามารถกำหนดความกว้างและความสูงได้ โดยที่ไม่จะขึ้นบรรทัดใหม่*/
+}
+
+.navbar .menu li a {    /*ตัวอักษรตรง tab */
+  display: block;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  margin-left: 25px;
+  transition: color 0.3s ease;
+}
+
+.navbar .menu li a:hover {
+  color:#ECE3CE;    /*เมื่อนำเมาส์ไปวางตรง tab home (ตอนแถบเป็นโปร่งใส)*/
+}
+
+.navbar.sticky .menu li a:hover {
+  color: #82A0D8;  /*เมื่อนำเมาส์ไปวางตรง tab home (ตอนแถบเป็นสี)*/
+}
+
+/*  Menu Btn  */
+.menu-btn {
+  color: #EEE0C9;
+  font-size: 23px;
+  cursor: crosshair;  /*กำหนดรูปร่าง cursor ของเมาส์ว่าสามารถ click ได้ ณตอนนี้ใช้เป็น + (cursorเฉพาะบนแถบเมนู)
+  display: none;  /*กำหนดให้ .menu-btn ไม่มีการแสดงบนหน้าจอตั้งแต่แรกเริ่ม อาจถูกใช้เพื่อซ่อนปุ่มเมนูในบางสถานการณ์และจะแสดงขึ้นมาเมื่อมีการเปลี่ยนแปลง*/
+}
+
+.scroll-up-btn {    /*ปุ่มเลื่อนขึ้นบนสุด*/
+  position: fixed; /* กำหนดให้ปุ่มมีตำแหน่งคงที่ (fixed) บนหน้าจอแม้ว่าจะมีการเลื่อนหน้าเว็บ*/
+  height: 45px; /*กำหนดความสูงของปุ่มเป็น 45 พิกเซล*/
+  width: 42px;  /*กำหนดความกว้างของปุ่มเป็น 45 พิกเซล*/
+  background: #618264;
+  right: 30px;    /*กำหนดระยะขอบขวาของปุ่มเป็น 30 พิกเซล*/
+  bottom: 10px;   /*กำหนดระยะขอบล่างของปุ่มเป็น 10 พิกเซล*/
+  text-align: center;
+  line-height: 45px;  /* กำหนดความสูงของบรรทัดข้อความในปุ่มเท่ากับความสูงของปุ่ม*/
+  color: #fff;  /* กำหนดสีข้อความในปุ่มเป็นสีขาว*/
+  z-index: 9999;
+  font-size: 30px;
+  border-radius: 6px; /*กำหนดรัศมีของมุมปุ่มเป็น 6 พิกเซล*/
+  border-bottom-width: 2px; /* กำหนดความหนาของเส้นขอบด้านล่างของปุ่มเป็น 2 พิกเซล*/
+  cursor: pointer;  /* เปลี่ยนรูปแบบของเคอร์เซอร์เป็นตัวชี้เมื่อวางที่ปุ่ม*/
+  opacity: 0;  /*กำหนดความทึบของปุ่มให้เป็น 0 (ปุ่มโปร่ง)*/
+}
+
+.scroll-up-btn.show {  /*ให้ปุ่ม scroll-upโชว์ขึ้นมา */
+  bottom: 30px;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.scroll-up-btn:hover {      /*เมื่อมีการโฮเวอร์ (hover) ที่ปุ่ม*/
+  filter: brightness(90%);  /*ให้ปรับค่าความสว่างของภาพในปุ่มลง 90% (ทำให้ดูเข้มขึ้นเล็กน้อย)*/
+}
+
+/*  Home  */
+.home {
+  display: flex;   /*ให้ส่วนหน้า Home ใช้ Flexbox เพื่อจัดการการจัดวางขององค์ประกอบภายใน*/
+  background: url("https://images.unsplash.com/photo-1582056615449-5dcb2332b3b2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D") no-repeat center;
+  /*ถ้ายากให้ bg ไม่ซ้ำ > background: url("https://source.unsplash.com/720x600/?dark,coding") no-repeat center; คือการกำหนด bg ใน web นั้นเปลี่ยนคำตรงหลัง ,และไม่ทำการทำซ้ำ (no-repeat) และวางภาพตรงกลาง (center)*/
+
+  height: 100vh;  /*กำหนดความสูงของส่วน Home ให้เป็น 100% ของความสูงของหน้าจอ (viewport height).*/
+  color: #fff;    /*กำหนดสีข้อความในส่วน Home เป็นสีขาว*/
+  min-height: 500px;  /*กำหนดความสูงขั้นต่ำของส่วน Home เป็น 500 พิกเซล*/
+  background-size: cover; /*กำหนดให้ภาพพื้นหลังปรับขนาดเพื่อให้ทั้งหมดพอดีกับพื้นที่ของส่วน Home*/
+  background-attachment: fixed; /*กำหนดให้พื้นหลังภาพติดตามการเลื่อนหน้าจอ (fixed)*/
+  font-family: "Ubuntu", sans-serif;  /*กำหนดแบบอักษรในส่วน Home เป็น "Ubuntu" หรือหากไม่สามารถใช้งานได้ให้ใช้แบบอักษร sans-serif ทั่วไป*/
+}
+
+.home .max-width {  
+  width: 100%;    /*กำหนดความกว้างเป็น 100% และให้มีการแสดงผลเป็น flex สำหรับ elements ที่มีคลาส "home" และ "max-width"*/
+  display: flex;  /*Flex สามารถจัดวางและจัดการพื้นที่ได้อย่างยืดหยุ่นตามต้องการ*/
+}
+
+.home .max-width .row {
+  margin-right: 0;  /*ไม่มีการเพิ่มขอบขวาใดๆ ให้กับ element ที่มีคลาส "row" ภายในคลาส "home" และ "max-width"*/
+}
+
+.home .home-content .text-1 {   /*Hello, My name is*/
+  font-size: 27px;
+}
+
+.home .home-content .text-2 {   /*Jinjutha Hassadeepong*/
+  font-size: 75px;
+  font-weight: 600;   /*ความหนาของตัวอักษร*/
+  -webkit-text-stroke-color: black; /*สีขอบของตัวอักษร*/
+  -webkit-text-stroke-width: 1px;      /*ความหนาขอบอักษร*/
+  margin-left: -3px;  /*ขยับไปทางซ้าย 3 พิกเซล ซึ่งจะทำให้ element นี้มีการขยับไปทางซ้ายจากตำแหน่งปกติ (default position) ของมัน*/
+}
+
+.home .home-content .text-3 {   /*And this is*/
+  color: #374259;
+  font-size: 40px;
+  margin: 5px 0;    /*การเพิ่มขอบบนและขอบล่างทั้งคู่ที่มีขนาด 5 พิกเซล*/
+}
+
+/* Linear Gradient */
+.home .home-content .text-3 span {    /*ตรงหลังคำว่า And this is */
+  color: #2c511e;
+  background: linear-gradient(135deg, #65647C, #C7BCA1, #C7BCA1);  /*สีเรียงตามทิศทางที่กำหนด (135 องศา) */
+  -webkit-background-clip: text;    /*พื้นหลังที่กำหนดด้วย linear gradient จะถูกตัดตามรูปร่างของตัวอักษรใน <span>*/
+  -webkit-text-fill-color: transparent; /*ใช้กำหนดสีของตัวอักษรใน <span> ให้เป็นโปร่งใส (transparent) เพื่อให้สีของตัวอักษรเป็นสีที่กำหนดใน linear gradient */
+  -webkit-text-stroke-color: #F5EBE0; /*สีขอบของตัวอักษร*/
+  -webkit-text-stroke-width: 1px;      /*ความหนาขอบอักษร*/
+  font-weight: 500;
+}
+
+.home .home-content a {   /*ตรงกล่องคำว่า Welcome*/
+  display: inline-block;  /*แสดงเป็นบล็อกไปในบรรทัดต่อมา ทำให้สามารถกำหนดความกว้างและความสูงได้*/
+  background: #C8DBBE;  /*กำหนดสีพื้นหลังของ box*/
+  color: #665A48;    /*สี font*/
+  font-size: 25px;
+  padding: 12px 36px; /* กำหนดพื้นที่ระหว่างขอบและเนื้อหาด้านใน ทั้งด้านบนและด้านล่างเท่ากับ 12px และทั้งด้านซ้ายและด้านขวาเท่ากับ 36px*/
+  margin-top: 20px; /*ระยะห่างระหว่าง box กับด้าานบน*/
+  font-weight: 400;
+  border-radius: 6px; /*กำหนดความโค้งของมุม*/
+
+  transition: all 0.3s ease;
+}
+
+.home .home-content a:hover {
+  color: #1e3551; /*สี font ตอนโดน hold*/
+  background: none;
+  animation: pulsate 3s ease-in-out;  /*ขยายขนาดและย่อลง*/
+}
+
+/*  About  */
+.about {
+  background: radial-gradient(#F5EFE6, white);  /*สีพื้นหลังในส่วนของ about me*/
+}
+.about .title::after {
+  content: "—CV—";
+  text-overflow: ellipsis;        /*กำหนดให้เนื้อหาที่เกินขอบเขตของ title จะถูกทับด้วย ellipsis (.....) ที่บอกว่ามีเนื้อหาที่ไม่ได้แสดง*/
+  display: -webkit-inline-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical; /*กำหนดให้มีการจัดวางแนวตั้ง (vertical) บนเบราว์เซอร์ที่ใช้โค้ด -webkit-*/
+}
+
+.about .about-content .left {
+  width: 45%;         /*กำหนดความกว้างของ element ด้านซ้าย นี้ให้เท่ากับ 45% ของพื้นที่ทั้งหมดที่กำหนดไว้*/
+}
+
+.about .about-content .left img {
+  height: 400px;  /*กำหนดความสูงและความกว้างของภาพ*/
+  width: 400px;
+  object-fit: cover;  /*ภาพปรับขนาดให้พอดีกับพื้นที่ที่กำหนดไว้*/
+  border-radius: 6px;   /*มุมโค้งของภาพ*/
+}
+
+.about .about-content .right {
+  width: 55%;
+}
+
+.about .about-content .right .text {
+  font-size: 25px;
+  font-weight: 600;
+  margin-bottom: 10px;  /*ทำให้มีช่องว่างด้านล่างของ element นั้นเพิ่มขึ้น*/
+}
+
+/* Linear Gradiant */
+
+.about .about-content .right p {
+  text-align: justify;      /* จัดวางข้อความให้ชิดขอบทั้งสองข้างของพื้นที่ที่กำหนดไว้ */
+}
+
+.about .about-content .right a {    /*ทำ box download*/
+  display: inline-block;
+  background: #DAE5D0;
+  color: #5F7161;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 10px 30px;   /* กำหนดพื้นที่ระหว่างขอบและเนื้อหาด้านใน ทั้งด้านบนและด้านล่างเท่ากับ 10x และทั้งด้านซ้ายและด้านขวาเท่ากับ 30px*/
+  margin-top: 20px;   /*ให้กล่อง box ห่างจากข้อความด้านบน*/
+  border-radius: 6px;
+  border: 2px solid #99A799;  /*กำหนดขอบของกล่อง ประเภท solid (ขอบทึบ), และสี*/
+  transition: all 0.3s ease;  /*การเปลี่ยนสีหรือขนาด เกิดขึ้นอย่างนุ่มนวลและไม่กระตุกกระตวน.*/
+}
+
+.about .about-content .right a:hover {  /*เมื่อhold ที่ box download*/
+  color: #1e3551;   /*สี font*/
+  background: none;
+  animation: pulsate 1s ease-in-out;  /*การเคลื่อนไหว*/
+}
+
+/*  education  */
+.education,
+.projects {
+  color: #ffffff;    /*font*/
+  background: #94B49F; /*สีพื้นหลังในส่วนของ about me*/
+}
+
+.education .title::before,
+.projects .title::before {
+  background:red;
+}
+
+.education .title::after,
+.projects .title::after {
+  background: #DAE5D0;    /* hightligt ส่วน title รอง*/
+  content: "Educational qualification"; /*ทำหน้าที่เพิ่มส่วนหนึ่งหน้าตาของ element โดยไม่ต้องมี HTML ที่เพิ่มเข้ามา*/
+}
+
+.education .edu-content .card { /*สร้างเป็นกล่องข้ออความ*/
+  width: calc(33% - 20px);    /*กำหนดความกว้างของกล่องข้อความให้เท่ากับ 33% ของความกว้างทั้งหมดลบด้วย 20px*/
+  color: rgb(26, 25, 24);       /*สีข้อความในกล่อง(ยกเว้นหัวข้อ)*/
+  background: #FEFBF3;
+  text-align: center;
+  border-radius: 10px;
+  padding: 50px 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+}
+
+.education .edu-content .card:hover { /*hold ไปที่กล่อง*/
+  background: #92817A;
+}
+
+.education .edu-content .card .box {
+  transition: all 0.3s ease;    /*ทำให้เกิดการเปลี่ยนแปลงทุก property อย่างนุ่มนวล*/
+}
+
+.education .edu-content .card:hover .box {
+  transform: scale(1.05);   /*ทำให้เกิดการขยายของ element นั้นเมื่อ hover*/
+}
+
+.education .seduerv-content .card i {   /*class icon*/
+  font-size: 50px;
+  color: #249c88;
+  background: linear-gradient(135deg, #041d3d, #fff, crimson);
+}
+
+.education .edu-content .card:hover i {   /*hold ที่กล่อง icon เปลี่ยนสี*/
+  color: #fff;
+}
+
+.education .edu-content .card .text {   /*หัวข้อปริญญา*/
+  color: #CBAF87;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 500;
+  margin: 10px 0 7px 0;
+}
+
+/*  Skills  */
+.skills {
+  background: radial-gradient(#F1F0E8, white);
+}
+.skills .title::after {
+  content: "—Basic skill—";
+  color: #618264 ;
+}
+
+.skills .skills-content .column {
+  width: calc(50% - 30px);
+}
+
+.skills .skills-content .left .text {   /* หัวข้อตรง Microsoft Office*/
+  color: #867070;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.skills .skills-content .left p {
+  text-align: justify;    /*จัดวางข้อความภายใน element ให้เต็มพื้นที่ในทั้งแนวนอน*/
+}
+
+
+.intern,    /* class ที่ตั้งไว้ห้หัวข้อ Microsoft word*/
+.project {
+  list-style: none; /*ไม่แสดง marker (ไม่มีตัวเลขหรือจุด)*/
+}
+
+.intern::before,  /*effect หัวข้อ่อย*/
+.project::before {
+  content: "♥  ";
+  color: pink;
+}
+
+.skills .skills-content .right .bars {
+  margin-bottom: 20px;    /*ทำให้มีช่องว่างด้านล่างของ element นั้นเพิ่มขึ้น*/
+}
+
+.skills .skills-content .right .info {
+  display: flex;  /*Flex สามารถจัดวางและจัดการพื้นที่ได้อย่างยืดหยุ่นตามต้องการ*/
+  margin-bottom: 5px;   /*เพิ่มขอบด้านล่างของ elements เป็น 5 พิกเซล*/
+  align-items: center;
+  justify-content: space-between; /*จัดการการจัดวางแนวนอนเลข 80% อยู่หลัง bar*/
+}
+
+.skills .skills-content .right span {
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.skills .skills-content .right .line {
+  height: 8px;              /* กำหนดความสูงของแกน*/
+  width: 100%;              /* กำหนดความกว้างของ element ที่มี class "line" เต็ม 100% ของพื้นที่ที่ถูกครอบด้วย*/
+  background: lightgrey;  /*แกนของบาร์ก่อนระบายเปอเซ็น*/
+  position: relative;       /*กำหนดตำแหน่งของ element*/
+}
+
+.skills .skills-content .right .line::before {  /*สร้างตัวระบายแกน*/
+  content: "";
+  position: absolute;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: #D5B4B4;
+}
+
+.skills-content .right .html::before {
+  width: 80%;
+}
+.skills-content .right .css::before {
+  width: 65%;
+}
+.skills-content .right .js::before {
+  width: 40%;
+}
+.skills-content .right .django::before {
+  width: 70%;
+}
+
+
+/*  Research  */
+.research .title::after {
+  content: "What I did ?";
+  color: #618264 ;
+}
+
+.research .carousel .card {
+  background: #DAE5D0;      /*กรอบสี่เหลี่ยม reserch สีปกติก่อนเอาเมาส์ไปวาง*/
+  border-radius: 6px;         /* กำหนดขอบโค้งของกรอบสี่เหลี่ยม */
+  padding: 25px 35px;         /* การเพิ่มขอบเข้าไปที่เนื้อหาภายในกรอบ */
+  text-align: center;         /* จัดวางเนื้อหาในกรอบตรงกลาง */
+  overflow: hidden;           /* ป้องกันการซ่อนเนื้อหาที่เกินขอบกรอบ */
+  transition: all 0.3s ease;  /* เพิ่มเอฟเฟกต์การเปลี่ยนสีและขนาดทั้งหมด */
+}
+
+.research .carousel .card:hover {
+  background: #F3E9DD;       /* เมื่อมีการโฮเวอร์(เอาเมาส์ไปวางบบนกรอบ), เปลี่ยนสีพื้นหลังของกรอบสี่เหลี่ยม */
+}
+
+.research .carousel .card .box {
+  display: flex;    /*ช่วยให้สามารถจัดวางและจัดการพื้นที่ของ elements ได้ง่าย*/
+  flex-direction: column; /*กำหนดทิศทางของ Flexbox เป็นแนวตั้ง (column)*/
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.research .carousel .card:hover .box {
+  transform: scale(1.05);
+}
+
+.research .carousel .card .text {
+  font-size: 25px;
+  font-weight: 500;
+  margin: 10px 0 7px 0;
+}
+
+.research .carousel .card img {
+  height: 150px;
+  width: 150px;
+  object-fit: cover;  /*จัดการให้รูปภาพทำการปรับตัวเองให้เต็มความสูงและความกว้างของพื้นที่ที่กำหนดไว้ 150x150px โดยไม่เปลี่ยนสัดส่วน*/
+  border-radius: 50%; /*เส้นรอบรูปภาพเป็นวงกลม*/
+  border: 5px solid #F0ECE3;  /*เส้นกรอบก่อน hold*/
+  transition: all 0.3s ease;  /*การเปลี่ยนแปลงทั้งหมดของรูปภาพ*/
+}
+.research .carousel .card:hover img {
+  border-color: #361515;    /*สีขอบรูปหลัง hold*/
+}
+
+
+/*  Contact  */
+.contact {
+  background: radial-gradient(#DAD0C2, white);
+}
+
+.contact .contact-content .column {
+  width: calc(50% - 30px);
+}
+
+.contact .contact-content .text {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;  /*ทำให้มีช่องว่างด้านล่างของ element นั้นเพิ่มขึ้น*/
+}
+
+.contact .contact-content .left p {
+  text-align: justify;  /*จัดวางข้อความภายใน element ให้เต็มพื้นที่ในทั้งแนวนอน*/
+}
+
+.contact .contact-content .left .icons {
+  margin: 10px 0;   /*การขยับระยะห่างระหว่างขอบล่างและบน=10*/
+}
+
+.contact .contact-content .row {
+  display: flex;
+  height: 65px;
+  align-items: center; /*ให้อยู่ตรงกลางของ icon ก่อนหน้า*/
+}
+
+.contact .contact-content .row .info {
+  margin-left: 30px;  
+}
+
+.contact .contact-content .row i {
+  font-size: 25px;
+  color: #5B6D5B;  /*ตรง  icon ชื่อ*/
+}
+
+.contact .contact-content .info .head {
+  font-weight: 500;
+  color: #000;    /*สีfont ตรงหัวข้อใหญ่สุด*/
+}
+
+.contact .contact-content .info .sub-title {
+  color: #c04141;
+}
+
+.contact .right form .fields {
+  display: flex;
+}
+
+.contact .right form .field,
+.contact .right form .fields .field {   /*กำหนดขนาดของช่องกรอกข้อมุล*/
+  height: 45px;
+  width: 100%;
+  margin-bottom: 15px;  /*เพิ่มขอบด้านล่างของ elements เป็น 15 พิกเซล*/
+}
+
+.contact .right form .textarea {  /*กำหนดขนาดของช่องกรอกข้อมุลตรง mssege me...*/
+  height: 80px;
+  width: 100%;
+}
+
+.contact .right form .name {
+  margin-right: 10px;
+}
+
+.contact .right form .field input,
+.contact .right form .textarea textarea {
+  height: 100%;
+  width: 100%;
+  border: 1px solid lightgrey;  /*ขอบของช่องกรอก*/
+  border-radius: 6px;
+  outline: none;
+  padding: 0 15px;
+  font-size: 17px;
+  font-family: "Poppins", sans-serif;
+  transition: all 0.3s ease;
+}
+
+.contact .right form .field input:focus,
+.contact .right form .textarea textarea:focus {
+  border-color: #b3b3b3;
+}
+
+.contact .right form .textarea textarea {
+  padding-top: 10px;
+  resize: none;
+}
+
+.contact .right form .button-area {
+  display: flex;
+  align-items: center;
+}
+
+.right form .button-area button {
+  color: #fff;    /*font ที่ปุ่มส่ง*/
+  display: block;
+  width: 160px !important;
+  height: 45px;
+  outline: none;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  flex-wrap: nowrap;
+  background: #618264;
+  border: 2px solid #79AC78;
+  transition: all 0.3s ease;
+}
+
+.right form .button-area button:hover {
+  color: #1e3551;
+  background: none;
+  animation: pulsate 1s ease-in-out;
+}
+
+/*  Social  */
+.col-4 {
+  background: #681919;
+}
+
+.social-menu ul {
+  position: absolute;
+  left: 20%;
+  padding: 0;
+  margin: 0;
+  transform: translate(-50%, -50%);
+  display: flex;
+}
+
+.social-menu ul li {
+  list-style: none;
+  margin: 0 15px;
+}
+
+.social-menu ul li .fa {
+  font-size: 30px;
+  line-height: 60px;
+  transition: 0.6s;
+  color: #000;
+}
+
+.social-menu ul li .fa:hover {
+  color: #fff;
+}
+
+.social-menu ul li a {
+  left: 30px;
+  right: 12px;    /*กำหนดระยะห่างจากขอบขวาของลิงก์เป็น 12 พิกเซล*/
+  padding-top: 8px;   /*จัด icon ตรงกลางภายในวงกลม*/
+  position: relative;
+  display: block;     /*กำหนดให้ลิงก์แสดงเป็นบล็อก*/
+  width: 30px;
+  height: 30px;
+  border-radius: 50%; /*ให้เป็นวงกลม*/
+  background-color: #776B5D;  /*สี bg ในวงงกลม*/
+  text-align: center;
+  transition: 0.6s;
+  box-shadow: 0 5px 4px rgba(0, 0, 0, 0.5); /*กำหนดเงาใต้ลิงก์*/
+}
+
+.social-menu ul li a:hover {      
+  transform: translate(0, -10px);   /* เมื่อโฮเวอร์ที่ลิงก์, ทำให้ icon ขยับไปที่ด้านบน 10px */
+}
+
+.social-menu ul li:nth-child(1) a:hover {
+  background-color: #e4405f;  /*เมื่อ hold icon จะเป็นสีแดง*/
+}
+.social-menu ul li:nth-child(2) a:hover {
+  background-color: #1da1f2;
+}
+
+
+
+.fa-brands {
+  color: #fff;
+}
+
+.fa-solid {
+  color: #fff;
+}
+
+/*  Footer  */
+footer {
+  background: #3A4D39;  /*bgแถบด้านล่าง*/
+  padding: 6px 16px;
+  color: #F3EEEA;   /*สี font 023 All Rights*/
+  text-align: center;
+}
+
+footer span a {
+  color: #F3EEEA;     /*jinjutha*/
+  text-decoration: none;    /*ไม่ต้องการการตกแต่งด้วยขีดเส้นหรืออะไรที่เกี่ยวข้องกับการแสดงลิงก์นั้น ๆ บนหน้าเว็บ*/
+}
+
+footer span a:hover {
+  text-decoration: underline; /*พอ hold ถึงโชว์ขีดเส้น*/
+}
+
+
+/* ด้านล่างต่่อไปนี้ไมจำเป็น */
+/*  Media Query  */
+@keyframes pulsate {
+  0% {
+    box-shadow: 0 0 25px #888e8d, 0 0 50px #1e3551;
+  }
+}
+
+@media (max-width: 1104px) {
+  .about .about-content .left img {
+    height: 350px;
+    width: 350px;
+  }
+  section .title::after {
+    bottom: -8px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 991px) {
+  .social-menu ul li a {
+    left: 114px;
+  }
+}
+
+@media (max-width: 947px) {
+  .menu-btn {
+    display: block;
+    z-index: 999;
+  }
+  .menu-btn i.active:before {
+    content: "\f00d";
+  }
+  .navbar .menu {
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    left: -100%;
+    top: 0;
+    background: #111;
+    text-align: center;
+    padding-top: 80px;
+    transition: all 0.3s ease;
+  }
+  .navbar .menu.active {
+    left: 0;
+  }
+  .navbar .menu li {
+    display: block;
+  }
+  .navbar .menu li a {
+    display: inline-block;
+    margin: 20px 0;
+    font-size: 25px;
+  }
+  .home .home-content .text-2 {
+    font-size: 70px;
+  }
+  .home .home-content .text-3 {
+    font-size: 35px;
+  }
+  .home .home-content a {
+    font-size: 23px;
+    padding: 10px 30px;
+  }
+  .max-width {
+    max-width: 930px;
+  }
+  .about .about-content .column {
+    width: 100%;
+  }
+  .about .about-content .left {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto 60px;
+  }
+  .about .about-content .right {
+    flex: 100%;
+  }
+  .education .edu-content .card {
+    width: calc(50% - 10px);
+    margin-bottom: 20px;
+  }
+  .skills .skills-content .column,
+  .contact .contact-content .column {
+    width: 100%;
+    margin-bottom: 35px;
+  }
+}
+
+@media (max-width: 690px) {
+  .max-width {
+    padding: 0 23px;
+  }
+  .home .home-content .text-2 {
+    font-size: 60px;
+  }
+  .home .home-content .text-3 {
+    font-size: 32px;
+  }
+  .home .home-content a {
+    font-size: 20px;
+  }
+  .education .edu-content .card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 500px) {
+  .home .home-content .text-2 {
+    font-size: 50px;
+  }
+  .home .home-content .text-3 {
+    font-size: 27px;
+  }
+  .about .about-content .right .text,
+  .skills .skills-content .left .text {
+    font-size: 19px;
+  }
+  .contact .right form .fields {
+    flex-direction: column;
+  }
+  .contact .right form .name,
+  .contact .right form .email {
+    margin: 0;
+  }
+  .right form .error-box {
+    width: 150px;
+  }
+  .scroll-up-btn {
+    right: 15px;
+    bottom: 15px;
+    height: 38px;
+    width: 35px;
+    font-size: 23px;
+    line-height: 38px;
+  }
+}
