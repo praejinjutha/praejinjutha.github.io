@@ -462,6 +462,21 @@ section .title::after {
 .skills-content .right .django::before {
   width: 70%;
 }
+.skills-content .right .reactjs::before {
+  width: 70%;
+}
+.skills-content .right .nodejs::before {
+  width: 65%;
+}
+.skills-content .right .sql::before {
+  width: 70%;
+}
+.skills-content .right .python::before {
+  width: 60%;
+}
+.skills-content .right .ux::before {
+  width: 70%;
+}
 
 
 /*  Research  */
